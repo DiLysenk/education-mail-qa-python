@@ -1,5 +1,5 @@
 import pytest
-import basic_locators
+from ui.locators import basic_locators
 from selenium.common.exceptions import StaleElementReferenceException
 
 CLICK_RETRY = 3

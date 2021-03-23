@@ -1,6 +1,6 @@
 import pytest
 from base import BaseCase
-import basic_locators
+from ui.locators import basic_locators
 
 
 class TestOne(BaseCase):
