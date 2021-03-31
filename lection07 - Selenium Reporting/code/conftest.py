@@ -24,18 +24,21 @@ def repo_root():
     return os.path.abspath(os.path.join(__file__, os.pardir))
 
 
-@pytest.fixture(scope='session')
-def base_test_dir():
-    base_dir = '/tmp/tests'
-    if os.path.exists(base_dir):
-        shutil.rmtree(base_dir)
-    os.makedirs(base_dir)
-    return base_dir
+def pytest_configure(config):
+    base_test_dir = '/tmp/tests'
+
+    if not hasattr(config, 'workerinput'):  # execute only once on main worker
+        if os.path.exists(base_test_dir):
+            shutil.rmtree(base_test_dir)
+        os.makedirs(base_test_dir)
+
+    # save to config for all workers
+    config.base_test_dir = base_test_dir
 
 
 @pytest.fixture(scope='function')
-def test_dir(base_test_dir, request):
-    test_dir = os.path.join(base_test_dir, request._pyfuncitem.nodeid)
+def test_dir(request):
+    test_dir = os.path.join(request.config.base_test_dir, request._pyfuncitem.nodeid)
     os.makedirs(test_dir)
     return test_dir
 
