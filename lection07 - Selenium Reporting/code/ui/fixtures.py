@@ -9,6 +9,9 @@ from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
 from ui.pages.search_page import SearchPage
 
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
+
 
 class UnsupportedBrowserType(Exception):
     pass
@@ -33,9 +36,12 @@ def get_driver(browser_name, download_dir):
     if browser_name == 'chrome':
         options = ChromeOptions()
         options.add_experimental_option("prefs", {"download.default_directory": download_dir})
-        browser = webdriver.Chrome(options=options)
+
+        manager = ChromeDriverManager(version='latest')
+        browser = webdriver.Chrome(executable_path=manager.install(), options=options)
     elif browser_name == 'firefox':
-        browser = webdriver.Firefox()
+        manager = GeckoDriverManager(version='latest', log_level=0)  # set log_level=0 to disable logging
+        browser = webdriver.Firefox(executable_path=manager.install())
     else:
         raise UnsupportedBrowserType(f' Unsupported browser {browser_name}')
 
