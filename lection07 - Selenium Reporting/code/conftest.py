@@ -1,4 +1,5 @@
 import logging
+import sys
 
 import allure
 
@@ -25,7 +26,10 @@ def repo_root():
 
 
 def pytest_configure(config):
-    base_test_dir = '/tmp/tests'
+    if sys.platform.startswith('win'):
+        base_test_dir = 'C:\\tests'
+    else:
+        base_test_dir = '/tmp/tests'
 
     if not hasattr(config, 'workerinput'):  # execute only once on main worker
         if os.path.exists(base_test_dir):
