@@ -2,6 +2,7 @@ import logging
 import shutil
 import sys
 
+from api.client import ApiClient
 from ui.fixtures import *
 
 
@@ -20,6 +21,11 @@ def credentials():
         password = f.readline().strip()
 
     return user, password
+
+
+@pytest.fixture(scope='function')
+def api_client(config):
+    return ApiClient(config['url'])
 
 
 @pytest.fixture(scope='session')

@@ -6,6 +6,7 @@ from selenium import webdriver
 from selenium.webdriver import ChromeOptions
 from webdriver_manager.chrome import ChromeDriverManager
 
+from api.client import ApiClient
 from ui.pages.login_page import LoginPage
 
 
@@ -15,16 +16,15 @@ class UnsupportedBrowserType(Exception):
 
 @pytest.fixture(scope='session')
 def cookies(credentials, config):
-    driver = get_driver(config, '')
-    driver.get(config['url'])
+    api_client = ApiClient(config['url'])
+    api_client.post_login(*credentials)
 
-    login_page = LoginPage(driver)
-    login_page.login(*credentials)
+    cookies_list = []
+    for cookie in api_client.session.cookies:
+        cookie_dict = {'domain': cookie.domain, 'name': cookie.name, 'value': cookie.value, 'secure': cookie.secure}
+        cookies_list.append(cookie_dict)
 
-    cookies = driver.get_cookies()
-    driver.quit()
-
-    return cookies
+    return cookies_list
 
 
 @pytest.fixture
@@ -81,7 +81,7 @@ def driver(config, test_dir):
     browser.quit()
 
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope='function')
 def ui_report(driver, request, test_dir):
     failed_tests_count = request.session.testsfailed
     yield
