@@ -28,6 +28,7 @@ class BasePage(object):
         self.driver = driver
         self.config = config
         self.url = self.config['url']
+        self.device = self.config['device_os']
 
         logger.info(f'{self.__class__.__name__} page is opening...')
         assert self.is_opened()
