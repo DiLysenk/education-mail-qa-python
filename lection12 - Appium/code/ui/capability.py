@@ -19,4 +19,17 @@ def capability_select(device_os, download_dir):
         capability = webdriver.ChromeOptions()
         capability.add_experimental_option("mobileEmulation", mobile_emulation)
         capability.add_experimental_option("excludeSwitches", ["enable-logging"])
+    elif device_os == 'android':
+        capability = {"platformName": "Android",
+                      "platformVersion": "8.1",
+                      "automationName": "Appium",
+                      "appPackage": "org.wikipedia",
+                      "appActivity": ".main.MainActivity",
+                      "app": os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                          '../stuff/Wikipedia_v2.7.50337-r-2020-12-04.apk')
+                                             ),
+                      "orientation": "PORTRAIT"
+                      }
+    else:
+        raise ValueError("Incorrect device os type")
     return capability

@@ -17,6 +17,12 @@ class MainPage(BasePage):
     def open_watchlist(self):
         pass
 
+    def skip_start_window(self):
+        pass
+
+    def click_on_lists_button(self):
+        pass
+
 
 class MainPageMW(MainPage):
     locators = MainPagePageMWLocators()
@@ -36,3 +42,14 @@ class MainPageMW(MainPage):
 
 class MainPageANDROID(MainPage):
     locators = MainPageANDROIDLocators()
+
+    @allure.step("Пропускаем стартовое окно")
+    def skip_start_window(self):
+        self.click_for_android(self.locators.SKIP_BUTTON)
+
+    @allure.step("Нажимаем на кнопку поиска")
+    def click_on_search_button(self):
+        self.click_for_android(self.locators.SEARCH_ICON)
+
+    def click_on_lists_button(self):
+        self.click_for_android(self.locators.MY_LISTS)

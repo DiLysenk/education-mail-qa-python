@@ -30,3 +30,11 @@ class TitleListPageMW(TitleListPage):
 
 class TitleListPageANDROID(TitleListPage):
     locators = TitleListPageANDROIDLocators()
+
+    @allure.step("Удаляем из избранного первую статью, проверяем, что вторая осталась в списке")
+    def check_delete_element_from_saved_title_list(self, text):
+        with allure.step("Удаляем первую статью из списка"):
+            self.click_for_android(self.locators.ITEM_TITLE)
+            self.swipe_element_lo_left(self.locators.FIRST_ELEMENT)
+        with allure.step("Проверяем, что оставшаяся статья соответствует нужной"):
+            self.find((By.XPATH, self.locators.ELEMENT.format(text)))

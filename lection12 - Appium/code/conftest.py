@@ -94,3 +94,26 @@ def skip_by_platform(request, config):
     if request.node.get_closest_marker('skip_platform'):
         if request.node.get_closest_marker('skip_platform').args[0] == config['device_os']:
             pytest.skip('skipped on this platform: {}'.format(config['device_os']))
+
+
+@pytest.fixture(scope='session', autouse=True)
+def add_allure_environment_property(request, config):
+    """
+    В зависимости от типа девайса добавляем в наши environment аллюра
+    environment.properties должен лежать внутри директории файлов allure в виде словаря
+    """
+    alluredir = request.config.getoption('--alluredir')
+    if alluredir:
+        env_props = dict()
+        if config['device_os'] in ['web', 'mw']:
+            env_props['Browser'] = 'Chrome'
+        else:
+            env_props['Appium'] = '1.20'
+            env_props['Android_emulator'] = '8.1'
+        if not os.path.exists(alluredir):
+            os.makedirs(alluredir)
+        allure_env_path = os.path.join(alluredir, 'environment.properties')
+
+        with open(allure_env_path, 'w') as f:
+            for key, value in list(env_props.items()):
+                f.write(f'{key}={value}\n')

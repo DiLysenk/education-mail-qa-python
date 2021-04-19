@@ -11,6 +11,15 @@ class TitlePage(BasePage):
     def add_to_bookmark(self):
         pass
 
+    def click_on_toolbar_button(self):
+        pass
+
+    def click_on_overflow_menu(self):
+        pass
+
+    def click_on_overflow_feed(self):
+        pass
+
 
 class TitlePageMW(TitlePage):
     locators = TitlePagePageMWLocators()
@@ -22,3 +31,15 @@ class TitlePageMW(TitlePage):
 
 class TitlePageANDROID(TitlePage):
     locators = TitlePageANDROIDLocators()
+
+    def add_to_bookmark(self):
+        self.click_for_android(self.locators.MENU_BOOKMARK)
+
+    def click_on_toolbar_button(self):
+        self.click_for_android(self.locators.PAGE_TOOLBAR)
+
+    def click_on_overflow_menu(self):
+        self.click_for_android(self.locators.OVERFLOW_MENU)
+
+    def click_on_overflow_feed(self):
+        self.click_for_android(self.locators.OVERFLOW_FEED)
