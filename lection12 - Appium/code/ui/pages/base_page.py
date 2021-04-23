@@ -114,7 +114,7 @@ class BasePage(object):
         :param max_swipes: количество свайпов до момента, пока тест не перестанет свайпать вверх
         """
         already_swiped = 0
-        while len(self.driver.find_elements(*locator) == 0):
+        while len(self.driver.find_elements(*locator)) == 0:
             if already_swiped > max_swipes:
                 raise TimeoutException(f"Error with {locator}, please check function")
             self.swipe_up()
