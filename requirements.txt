@@ -7,3 +7,4 @@ requests
 faker
 Appium-Python-Client
 pymysql
+sqlalchemy
