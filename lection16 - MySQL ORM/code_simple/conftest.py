@@ -7,7 +7,8 @@ from mysql.client import MysqlClient
 def mysql_client():
     mysql_client = MysqlClient(user='root', password='pass', db_name='TEST_PYTHON')
     mysql_client.connect()
-    return mysql_client
+    yield mysql_client
+    mysql_client.connection.close()
 
 
 def pytest_configure(config):
