@@ -26,8 +26,7 @@ class MySQLBuilder:
             start_teaching=start_teaching
         )
         self.client.session.add(prepod)
-        self.client.session.commit()
-
+        self.client.session.commit()  # no need if sessionmaker autocommit=True
         return prepod
 
     def create_student(self, name=None, prepod_id=None):
@@ -42,5 +41,5 @@ class MySQLBuilder:
             prepod_id=prepod_id
         )
         self.client.session.add(student)
-        self.client.session.commit()
+        self.client.session.commit()  # no need if sessionmaker autocommit=True
         return student

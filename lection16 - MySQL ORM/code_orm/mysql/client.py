@@ -24,12 +24,13 @@ class MysqlClient:
 
         self.engine = sqlalchemy.create_engine(
             f'mysql+pymysql://{self.user}:{self.password}@{self.host}:{self.port}/{db}',
-            encoding='utf8',
-            autocommit=True,
-            expire_on_commit=False,
+            encoding='utf8'
         )
         self.connection = self.engine.connect()
-        self.session = sessionmaker(bind=self.connection.engine)()
+        self.session = sessionmaker(bind=self.connection.engine,
+                                    autocommit=False,  # use autocommit on session.add
+                                    expire_on_commit=False  # expire model after commit (requests data from database)
+                                    )()
 
     def execute_query(self, query, fetch=True):
         res = self.connection.execute(query)
