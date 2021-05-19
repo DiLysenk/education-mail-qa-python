@@ -1,0 +1,25 @@
+version: '2.1'
+
+services:
+  percona:
+    image: "percona:latest"
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+    healthcheck:
+      test: ['CMD', 'mysqladmin', '-uroot', '-ppass', 'ping', '-h', '127.0.0.1']
+      timeout: 1s
+      retries: 30
+
+  tests:
+    image: "qa_tests:latest"
+    tty: true
+    volumes:
+      - /Users/i.kirillov/PycharmProjects/education-mail-qa-python/lection20 - Docker \#2/tests/lection16mysql:/tmp/source_code
+      - /tmp/alluredir:/tmp/alluredir
+    entrypoint: /bin/bash /tmp/source_code/start_tests.sh
+    environment:
+      - TESTS_PATH=/tmp/source_code/code_orm
+      - THREADS=0
+    depends_on:
+      percona:
+        condition: service_healthy
