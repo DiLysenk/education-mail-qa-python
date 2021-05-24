@@ -1,0 +1,38 @@
+
+
+- job-template:
+    name: 'test-{job_name}'
+    description: "JJB Project\n"
+    project-type: freestyle
+
+    scm:
+      - qa-python-scm
+
+    wrappers:
+      - timestamps
+      - workspace-cleanup
+
+    triggers:
+      - pollscm:
+          cron: '{cron}'
+
+    parameters:
+      - string:
+          name: BRANCH
+          default: main
+      - string:
+          name: KEYWORD
+      - string:
+          name: TEST_THREADS
+          default: 0
+
+    builders:
+      - shell:
+          !include-raw: 'builders/start_tests.sh'
+
+
+    publishers:
+      - allure:
+          results-paths:
+            - path: 'alluredir'
+          report-build-policy: ALWAYS

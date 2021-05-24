@@ -9,3 +9,4 @@ Appium-Python-Client==1.1.0
 PyMySQL==1.0.2
 SQLAlchemy==1.4.13
 Flask==1.1.2
+jenkins-jobs==0.0.1

@@ -1,0 +1,9 @@
+- project:
+    name: test_project
+    jobs:
+      - 'test-{job_name}':
+         job_name: 'test1'
+         cron: '* * * * *'
+      - 'test-{job_name}':
+         job_name: 'test2'
+         cron: '1 1 1 1 1'

@@ -1,0 +1,8 @@
+- scm:
+    name: qa-python-scm
+    scm:
+      - git:
+          url: git@github.com:snicks92/test_jenkins.git
+          basedir: .
+          branches:
+            - $BRANCH
