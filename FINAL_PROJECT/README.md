@@ -132,7 +132,7 @@ CREATE TABLE `test_users` (
         ```http request
         Status: 200 OK
         Content-Type: application/json
-        Response: {'vk_id': <vk_id>}
+        Response: {"vk_id": "<vk_id>"}
         ```
     * Если пользователь не найден:
         ```http request
@@ -143,6 +143,7 @@ CREATE TABLE `test_users` (
 
 * Опция `VK_URL` обязательна в конфиге.
 * Сервис должен работать до старта приложения.
+* Тип объекта `<vk_id>` - строка(str)
 
 ## Пример запуска приложения
 Вместе за заданием поставляется docker-образ myapp. Докер образ доступен по [ссылке](https://cloud.mail.ru/public/Afgs/4d3fEinvu)
